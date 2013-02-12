@@ -4,22 +4,28 @@ stem_radius=1.5;
 joint_gap=9;
 rjoint=(joint_gap+2)/2;
 
-//rotate( a=[0,0,45] ) front();
-//rotate( a=[0,0,45] ) back();
+plate=3;
 
-intersection() {
-    union() {
-        stem();
-        translate([40,-20, 0]) leg();
-        translate([40, 20, 0]) leg();
-        translate([ 20,-20, 0]) shoulder();
-        translate([ 20, 20, 0]) shoulder();
-        translate([-20,-20, 0]) arm();
-        translate([-20, 20, 0]) arm();
-    }
-    translate([0,0,50]) cube([100,100,100], center=true );
+if( plate == 1 ) {
+    rotate( a=[0,0,45] ) front();
 }
-
+if( plate == 2 ) {
+    rotate( a=[0,0,45] ) back();
+}
+if( plate == 3 ) {
+    intersection() {
+        union() {
+            stem();
+            translate([40,-20, 0]) leg();
+            translate([40, 20, 0]) leg();
+            translate([ 20,-20, 0]) shoulder();
+            translate([ 20, 20, 0]) shoulder();
+            translate([-20,-20, 0]) arm();
+            translate([-20, 20, 0]) arm();
+        }
+        translate([0,0,50]) cube([100,100,100], center=true );
+    }
+}
 
 module front() {
     side=2*outer+10;
