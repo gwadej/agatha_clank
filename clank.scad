@@ -1,8 +1,8 @@
 outer=45;
 aspect=1.1;
 stem_radius=1.5;
-joint_gap=9;
-rjoint=(joint_gap+2)/2;
+rjoint=5;
+joint_gap=2*rjoint-3;
 
 plate=3;
 
@@ -16,8 +16,8 @@ if( plate == 3 ) {
     intersection() {
         union() {
             stem();
-            translate([40,-20, 0]) leg();
-            translate([40, 20, 0]) leg();
+            translate([ 40,-20, 0]) leg();
+            translate([ 40, 20, 0]) leg();
             translate([ 20,-20, 0]) shoulder();
             translate([ 20, 20, 0]) shoulder();
             translate([-20,-20, 0]) arm();
@@ -56,7 +56,8 @@ module core() {
     face=36;
     thick=9;
     ring=(outer-face)/2 + face;
-    joint_gap=9;
+    ltheta=7;
+    langle=20;
     difference() {
         union() {
             cylinder( h=thick, r=outer, center=true );
@@ -71,8 +72,8 @@ module core() {
         translate([ outer,0,0]) limb_hole( joint_gap, thick );
         translate([-outer,0,0]) mirror([1,0,0]) limb_hole( joint_gap, thick );
         // Attach legs here
-        rotate([0,0,-67]) translate([ outer,0,0]) limb_hole( joint_gap, thick );
-        rotate([0,0,-112]) translate([ outer,0,0]) limb_hole( joint_gap, thick );
+        rotate([0,0,-(90-langle)]) translate([outer,0,0]) rotate([0,0,-ltheta]) limb_hole( joint_gap, thick );
+        rotate([0,0,-(90+langle)]) translate([outer,0,0]) rotate([0,0, ltheta]) limb_hole( joint_gap, thick );
     }
 }
 
@@ -124,14 +125,14 @@ module arm() {
             translate([0,0,length/2]) cube( [width, width, length], center=true );
             translate([0,0,length+0.25*rjoint]) hand( rjoint/2 );
         }
-        cylinder( h=3, r=1, center=true );
+        cylinder( h=3, r=1.5, center=true, $fn=8 );
     }
 }
 
 module shoulder() {
     difference() {
-        translate([0,0,0.75*rjoint]) sphere( r=rjoint, center=true, $fn=20 );
-        cylinder( h=3, r=1, center=true );
+        translate([0,0,0.80*rjoint]) sphere( r=rjoint, center=true, $fn=20 );
+        cylinder( h=3, r=1.5, center=true, $fn=8 );
     }
 }
 
@@ -152,15 +153,14 @@ module finger( base, thick, length ) {
 }
 
 module leg() {
-    length=0.75*outer/2;
-    width=1.5*rjoint;
+    length=0.70*outer/2;
+    width=1.1*rjoint;
     difference() {
         union() {
-            translate([0,0,1+1.5*rjoint+length]) sphere( r=rjoint, center=true, $fn=20 );
-            translate([0,0,1+length/2+0.75*rjoint]) cube( [width, width, length], center=true );
+            translate([0,0,1+1.6*rjoint+length]) sphere( r=rjoint, center=true, $fn=20 );
+            translate([0,0,1+length/2+0.80*rjoint]) rotate([0,0,45]) cylinder( h=length, r2=width, r1=0.75*width, center=true, $fn=4 );
             translate([0,0,1+rjoint/2]) sphere( r=rjoint/2, center=true, $fn=20 );
             translate([0,rjoint/2,1]) cube( [rjoint, 2*rjoint, 2], center=true );
         }
-        cylinder( h=3, r=1, center=true );
     }
 }
