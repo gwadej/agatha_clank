@@ -4,7 +4,7 @@ stem_radius=1.5;
 rjoint=5;
 joint_gap=2*rjoint-3;
 
-plate=3;
+plate=2;
 
 if( plate == 1 ) {
     rotate( a=[0,0,45] ) front();
@@ -57,7 +57,7 @@ module core() {
     thick=9;
     ring=(outer-face)/2 + face;
     ltheta=7;
-    langle=20;
+    langle=19;
     difference() {
         union() {
             cylinder( h=thick, r=outer, center=true );
@@ -72,8 +72,8 @@ module core() {
         translate([ outer,0,0]) limb_hole( joint_gap, thick );
         translate([-outer,0,0]) mirror([1,0,0]) limb_hole( joint_gap, thick );
         // Attach legs here
-        rotate([0,0,-(90-langle)]) translate([outer,0,0]) rotate([0,0,-ltheta]) limb_hole( joint_gap, thick );
-        rotate([0,0,-(90+langle)]) translate([outer,0,0]) rotate([0,0, ltheta]) limb_hole( joint_gap, thick );
+        rotate([0,0,-(90-langle)]) translate([outer+1,0,0]) rotate([0,0,-ltheta]) limb_hole( joint_gap, thick );
+        rotate([0,0,-(90+langle)]) translate([outer+1,0,0]) rotate([0,0, ltheta]) limb_hole( joint_gap, thick );
     }
 }
 
