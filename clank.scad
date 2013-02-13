@@ -3,16 +3,23 @@ aspect=1.1;
 stem_radius=1.5;
 rjoint=5;
 joint_gap=2*rjoint-3;
+filament_diam=3;
+filament_adj=0.2;
+r_hole=(filament_diam+filament_adj)/2;
 
-plate=2;
+front_plate=1;
+back_plate=2;
+limbs_plate=3;
 
-if( plate == 1 ) {
+plate=limbs_plate;
+
+if( plate == front_plate ) {
     rotate( a=[0,0,45] ) front();
 }
-if( plate == 2 ) {
+if( plate == back_plate ) {
     rotate( a=[0,0,45] ) back();
 }
-if( plate == 3 ) {
+if( plate == limbs_plate ) {
     intersection() {
         union() {
             stem();
@@ -83,7 +90,7 @@ module limb_hole( joint_gap, thick ) {
 }
 
 module stem_hole(offset) {
-    translate([0,offset,0]) rotate(a=[90,0,0]) cylinder( h=6, r=stem_radius, center=true );
+    translate([0,offset,0]) rotate(a=[90,0,0]) cylinder( h=6, r=stem_radius, center=true, $fn=10 );
 }
 
 module bolts( ring ) {
@@ -113,26 +120,26 @@ module stem() {
     stem_height=8;
     union() {
         translate([0,0,w_thick/2]) cylinder( r=5, h=w_thick, center=true );
-        translate([0,0,stem_height/2]) cylinder( r=stem_radius, h=stem_height, center=true );
+        translate([0,0,stem_height/2]) cylinder( r=stem_radius, h=stem_height, center=true, $fn=10 );
     }
 }
 
 module arm() {
     length=outer/2;
-    width=2*(0.75*rjoint);
+    width=1.2*rjoint;
     difference() {
-        union() {
+         union() {
             translate([0,0,length/2]) cube( [width, width, length], center=true );
             translate([0,0,length+0.25*rjoint]) hand( rjoint/2 );
         }
-        cylinder( h=3, r=1.5, center=true, $fn=8 );
+         cylinder( h=5, r=r_hole, center=true, $fn=8 );
     }
 }
 
 module shoulder() {
     difference() {
         translate([0,0,0.80*rjoint]) sphere( r=rjoint, center=true, $fn=20 );
-        cylinder( h=3, r=1.5, center=true, $fn=8 );
+        cylinder( h=5, r=r_hole, center=true, $fn=8 );
     }
 }
 
