@@ -10,6 +10,7 @@ r_hole=(filament_diam+filament_adj)/2;
 front_plate=1;
 back_plate=2;
 limbs_plate=3;
+arms_plate=4;
 
 plate=limbs_plate;
 
@@ -27,6 +28,15 @@ if( plate == limbs_plate ) {
             translate([ 40, 20, 0]) leg();
             translate([ 20,-20, 0]) shoulder();
             translate([ 20, 20, 0]) shoulder();
+            translate([-20,-20, 0]) arm();
+            translate([-20, 20, 0]) arm();
+        }
+        translate([0,0,50]) cube([100,100,100], center=true );
+    }
+}
+if( plate == arms_plate ) {
+    intersection() {
+        union() {
             translate([-20,-20, 0]) arm();
             translate([-20, 20, 0]) arm();
         }
@@ -126,7 +136,7 @@ module stem() {
 
 module arm() {
     length=outer/2;
-    width=1.2*rjoint;
+    width=1.4*rjoint;
     difference() {
          union() {
             translate([0,0,length/2]) cube( [width, width, length], center=true );
