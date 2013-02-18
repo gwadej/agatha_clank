@@ -14,7 +14,7 @@ limbs_plate=3;
 arms_plate=4;
 eye_plate=5;
 
-plate=eye_plate;
+plate=front_plate;
 
 if( plate == front_plate ) {
     rotate( a=[0,0,45] ) front();
@@ -115,8 +115,8 @@ module stem_hole(offset) {
 }
 
 module bolts( ring ) {
-    num=16;
-    diam=2.5;
+    num=7;
+    diam=3;
     for( i = [0 : num-1] ) {
         rotate( a=[0,0,(i+0.5)*360/num] )
         translate([0,ring,0])
