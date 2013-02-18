@@ -6,13 +6,15 @@ joint_gap=2*rjoint-3;
 filament_diam=3;
 filament_adj=0.2;
 r_hole=(filament_diam+filament_adj)/2;
+r_eye=12;
 
 front_plate=1;
 back_plate=2;
 limbs_plate=3;
 arms_plate=4;
+eye_plate=5;
 
-plate=limbs_plate;
+plate=front_plate;
 
 if( plate == front_plate ) {
     rotate( a=[0,0,45] ) front();
@@ -43,6 +45,12 @@ if( plate == arms_plate ) {
         translate([0,0,50]) cube([100,100,100], center=true );
     }
 }
+if( plate == eye_plate ) {
+    intersection() {
+        translate([0,0,0.75*r_eye]) eye( r_eye );
+        translate([0,0,50]) cube([100,100,100], center=true );
+    }
+}
 
 module front() {
     side=2*outer+10;
@@ -61,17 +69,20 @@ module back() {
 }
 
 module body() {
-    union() {
-        scale([1,aspect,1]) core();
-        translate([0,0,5]) eye();
+    thick=9;
+    sep=5;
+    difference() {
+        union() {
+            scale([1,aspect,1]) core(thick, sep);
+            translate([0,0,thick]) cylinder( r=r_eye, h=2, center=true );
+        }
+        translate([0,0,sep]) sphere( r=r_eye+0.2 );
     }
 }
 
-module core() {
-    sep=5;
+module core(thick,sep) {
     dratio=0.1;
     face=36;
-    thick=9;
     ring=(outer-face)/2 + face;
     ltheta=7;
     langle=19;
@@ -104,8 +115,8 @@ module stem_hole(offset) {
 }
 
 module bolts( ring ) {
-    num=16;
-    diam=2.5;
+    num=7;
+    diam=3;
     for( i = [0 : num-1] ) {
         rotate( a=[0,0,(i+0.5)*360/num] )
         translate([0,ring,0])
@@ -113,15 +124,11 @@ module bolts( ring ) {
     }
 }
 
-module eye() {
-    diam=12;
-    scale([1,aspect,1]) difference() {
-        union() {
-            sphere( r=diam );
-            translate([0,0,4]) cylinder( r=diam, h=2, center=true );
-        }
-        translate([0,0,diam-0.5]) cylinder( h=2, r=5.5, center=true );
-        translate([0,0,diam-1]) cylinder( h=3.5, r=2, center=true, $fn=30 );
+module eye(r) {
+    difference() {
+        sphere( r=r );
+        translate([0,0,r-0.5]) cylinder( h=2, r=5.5, center=true );
+        translate([0,0,r-1]) cylinder( h=3.5, r=2, center=true, $fn=30 );
     }
 }
 
