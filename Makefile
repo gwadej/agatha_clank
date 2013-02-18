@@ -18,3 +18,6 @@ clank-limbs.stl: clank.scad
 
 clank-arms.stl: clank.scad
 	openscad -o $@ -D'plate=4' $<
+
+clank-eye.stl: clank.scad
+	openscad -o $@ -D'plate=5' $<
