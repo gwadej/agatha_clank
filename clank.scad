@@ -11,8 +11,9 @@ r_eye=12;
 front_plate=1;
 back_plate=2;
 limbs_plate=3;
-arms_plate=4;
-eye_plate=5;
+eye_plate=4;
+arms_plate=5;
+legs_plate=6;
 
 plate=front_plate;
 
@@ -36,6 +37,12 @@ if( plate == limbs_plate ) {
         translate([0,0,50]) cube([100,100,100], center=true );
     }
 }
+if( plate == eye_plate ) {
+    intersection() {
+        translate([0,0,0.75*r_eye]) eye( r_eye );
+        translate([0,0,50]) cube([100,100,100], center=true );
+    }
+}
 if( plate == arms_plate ) {
     intersection() {
         union() {
@@ -45,9 +52,12 @@ if( plate == arms_plate ) {
         translate([0,0,50]) cube([100,100,100], center=true );
     }
 }
-if( plate == eye_plate ) {
+if( plate == legs_plate ) {
     intersection() {
-        translate([0,0,0.75*r_eye]) eye( r_eye );
+        union() {
+            translate([ 40,-20, 0]) leg();
+            translate([ 40, 20, 0]) leg();
+        }
         translate([0,0,50]) cube([100,100,100], center=true );
     }
 }

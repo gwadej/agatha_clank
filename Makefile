@@ -3,9 +3,21 @@
 STLS=\
 	clank-front.stl \
 	clank-back.stl \
-	clank-limbs.stl
+	clank-limbs.stl \
+	clank-eye.stl
 
-all: $(STLS)
+EXTRAS=\
+	clank-arms.stl \
+	clank-legs.stl
+
+clank: $(STLS)
+
+extra: $(EXTRAS)
+
+all: clank extra
+
+clobber:
+	rm $(STLS) $(EXTRAS)
 
 clank-front.stl: clank.scad
 	openscad -o $@ -D'plate=1' $<
@@ -16,8 +28,11 @@ clank-back.stl: clank.scad
 clank-limbs.stl: clank.scad
 	openscad -o $@ -D'plate=3' $<
 
-clank-arms.stl: clank.scad
+clank-eye.stl: clank.scad
 	openscad -o $@ -D'plate=4' $<
 
-clank-eye.stl: clank.scad
+clank-arms.stl: clank.scad
 	openscad -o $@ -D'plate=5' $<
+
+clank-legs.stl: clank.scad
+	openscad -o $@ -D'plate=6' $<
