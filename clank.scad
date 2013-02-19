@@ -177,6 +177,23 @@ module finger( base, thick, length ) {
 }
 
 module leg() {
+    length=outer/2;
+    upper=0.6*length;
+    lower=1.1*(length-upper);
+    width=1.1*rjoint;
+    foot=1.3*rjoint;
+    difference() {
+        union() {
+            translate([0,0,1+1.6*rjoint+length]) sphere( r=rjoint, center=true, $fn=20 );
+            translate([0,0,1+length-upper/2+0.80*rjoint]) rotate([0,0,45]) cylinder( h=upper, r2=width, r1=0.75*width, center=true, $fn=4 );
+            translate([0,0,1+rjoint/2+lower/1.1]) sphere( r=rjoint/2, center=true, $fn=20 );
+            translate([0,0,1+lower/2]) cube( [foot,4,lower], center=true );
+            translate([0,foot-2,1]) cube( [foot, 2*foot, 2], center=true );
+        }
+    }
+}
+
+module old_leg() {
     length=0.70*outer/2;
     width=1.1*rjoint;
     difference() {
