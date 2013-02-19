@@ -74,7 +74,7 @@ module body() {
     difference() {
         union() {
             scale([1,aspect,1]) core(thick, sep);
-            translate([0,0,thick]) cylinder( r=r_eye, h=2, center=true );
+            translate([0,0,thick]) cylinder( r=r_eye+2, h=2, center=true );
         }
         translate([0,0,sep]) sphere( r=r_eye+0.2 );
     }
