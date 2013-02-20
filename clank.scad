@@ -46,8 +46,8 @@ if( plate == eye_plate ) {
 if( plate == arms_plate ) {
     intersection() {
         union() {
-            translate([-20,-20, 0]) arm();
-            translate([-20, 20, 0]) arm();
+            translate([0,-20, 0]) arm();
+            translate([0, 20, 0]) arm();
         }
         translate([0,0,50]) cube([100,100,100], center=true );
     }
@@ -55,8 +55,8 @@ if( plate == arms_plate ) {
 if( plate == legs_plate ) {
     intersection() {
         union() {
-            translate([ 40,-20, 0]) leg();
-            translate([ 40, 20, 0]) leg();
+            translate([0,-20, 0]) leg();
+            translate([0, 20, 0]) leg();
         }
         translate([0,0,50]) cube([100,100,100], center=true );
     }
