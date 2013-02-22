@@ -3,6 +3,7 @@ aspect=1.1;
 stem_radius=1.5;
 rjoint=5;
 joint_gap=2*rjoint-3;
+joint_fudge=0.15;
 filament_diam=3;
 filament_adj=0.2;
 r_hole=(filament_diam+filament_adj)/2;
@@ -165,7 +166,7 @@ module arm() {
 
 module shoulder() {
     difference() {
-        translate([0,0,0.80*rjoint]) sphere( r=rjoint, center=true, $fn=20 );
+        translate([0,0,0.80*rjoint]) sphere( r=rjoint+joint_fudge, center=true, $fn=20 );
         cylinder( h=5, r=r_hole, center=true, $fn=8 );
     }
 }
@@ -194,7 +195,7 @@ module leg() {
     foot=1.3*rjoint;
     difference() {
         union() {
-            translate([0,0,1+1.6*rjoint+length]) sphere( r=rjoint, center=true, $fn=20 );
+            translate([0,0,1+1.6*rjoint+length]) sphere( r=rjoint+joint_fudge, center=true, $fn=20 );
             translate([0,0,1+length-upper/2+0.80*rjoint]) rotate([0,0,45]) cylinder( h=upper, r2=width, r1=0.75*width, center=true, $fn=4 );
             translate([0,0,1+rjoint/2+lower/1.1]) sphere( r=rjoint/2, center=true, $fn=20 );
             translate([0,0,1+lower/2]) cube( [foot,4,lower], center=true );
