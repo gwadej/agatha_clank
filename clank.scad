@@ -49,6 +49,8 @@ if( plate == arms_plate ) {
         union() {
             translate([0,-20, 0]) arm();
             translate([0, 20, 0]) arm();
+            translate([ 20, 0, 0]) shoulder();
+            translate([-20, 0, 0]) shoulder();
         }
         translate([0,0,50]) cube([100,100,100], center=true );
     }
@@ -176,14 +178,14 @@ module arm() {
             translate([0,0,length/2]) cube( [width, width, length], center=true );
             translate([0,0,length+0.25*rjoint]) hand( rjoint/2 );
         }
-         cylinder( h=5, r=r_hole, center=true, $fn=8 );
+         cylinder( h=10, r=r_hole, center=true, $fn=8 );
     }
 }
 
 module shoulder() {
     difference() {
         translate([0,0,0.80*rjoint]) sphere( r=rjoint+joint_fudge, center=true, $fn=20 );
-        cylinder( h=5, r=r_hole, center=true, $fn=8 );
+        cylinder( h=10, r=r_hole, center=true, $fn=8 );
     }
 }
 
