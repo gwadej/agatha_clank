@@ -8,6 +8,7 @@ filament_diam=3;
 filament_adj=0.2;
 r_hole=(filament_diam+filament_adj)/2;
 r_eye=12;
+stem_height=8;
 
 front_plate=1;
 back_plate=2;
@@ -15,8 +16,9 @@ limbs_plate=3;
 eye_plate=4;
 arms_plate=5;
 legs_plate=6;
+stem_test=7;
 
-plate=front_plate;
+plate=stem_test;
 
 if( plate == front_plate ) {
     rotate( a=[0,0,45] ) front();
@@ -60,6 +62,16 @@ if( plate == legs_plate ) {
             translate([0, 20, 0]) leg();
         }
         translate([0,0,50]) cube([100,100,100], center=true );
+    }
+}
+if( plate == stem_test ) {
+    intersection() {
+        union() {
+            translate([0,70,0]) rotate([0,0,180]) back();
+            translate([0,-70,0]) front();
+            stem();
+        }
+        translate([0,0,50]) cube([70,70,100], center=true );
     }
 }
 
@@ -122,7 +134,11 @@ module limb_hole( joint_gap, thick ) {
 }
 
 module stem_hole(offset) {
-    translate([0,offset,0]) rotate(a=[90,0,0]) cylinder( h=6, r=stem_radius, center=true, $fn=10 );
+    depth=0.75*stem_height;
+    union() {
+        translate([0,offset,0]) rotate(a=[90,0,0]) cylinder( h=depth, r=stem_radius, center=true, $fn=10 );
+        translate([0,offset-depth+1,0]) rotate(a=[90,0,0]) cylinder( r1=stem_radius, r2=2*stem_radius, h=depth, center=true, $fn=10 );
+    }
 }
 
 module bolts( ring ) {
@@ -145,10 +161,10 @@ module eye(r) {
 
 module stem() {
     w_thick=3;
-    stem_height=8;
     union() {
         translate([0,0,w_thick/2]) cylinder( r=5, h=w_thick, center=true );
         translate([0,0,stem_height/2]) cylinder( r=stem_radius, h=stem_height, center=true, $fn=10 );
+        translate([0,0,1.25*stem_height]) cylinder( r1=stem_radius, r2=2*stem_radius, h=0.75*stem_height, center=true, $fn=10 );
     }
 }
 
