@@ -14,9 +14,8 @@ limbs_plate=3;
 eye_plate=4;
 arms_plate=5;
 legs_plate=6;
-stem_test=7;
 
-plate=stem_test;
+plate=arms_plate;
 
 if( plate == front_plate ) {
     rotate( a=[0,0,45] ) front();
@@ -64,16 +63,6 @@ if( plate == legs_plate ) {
         translate([0,0,50]) cube([100,100,100], center=true );
     }
 }
-if( plate == stem_test ) {
-    intersection() {
-        union() {
-            translate([0,70,0]) rotate([0,0,180]) back();
-            translate([0,-70,0]) front();
-            stem();
-        }
-        translate([0,0,50]) cube([70,70,100], center=true );
-    }
-}
 
 module front() {
     side=2*outer+10;
@@ -96,19 +85,20 @@ module body() {
     sep=5;
     difference() {
         union() {
-            scale([1,aspect,1]) core(thick, sep);
+            scale([1,aspect,1]) core( outer, thick, sep );
             translate([0,0,thick]) cylinder( r=r_eye+2, h=2, center=true );
         }
         translate([0,0,sep]) sphere( r=r_eye+0.2 );
     }
 }
 
-module core(thick,sep) {
+module core( outer, thick, sep ) {
     dratio=0.1;
-    face=36;
+    face=0.8*outer;
     ring=(outer-face)/2 + face;
     ltheta=7;
     langle=19;
+    stem_scale=1.1;
     difference() {
         union() {
             cylinder( h=thick, r=outer, center=true );
@@ -120,7 +110,7 @@ module core(thick,sep) {
         }
 
         // hole for stem
-        translate([0,outer+5,0]) rotate(a=[90,0,0]) scale([1.1,1.1,1]) stem_shaft();
+        translate([0,outer+5,0]) rotate(a=[90,0,0]) scale([stem_scale,stem_scale,1]) stem_shaft();
         // Attach arms here
         translate([ outer,0,0]) limb_hole( joint_gap, thick );
         translate([-outer,0,0]) mirror([1,0,0]) limb_hole( joint_gap, thick );
@@ -218,19 +208,6 @@ module leg() {
             translate([0,0,1+rjoint/2+lower/1.1]) sphere( r=rjoint/2, center=true, $fn=20 );
             translate([0,0,1+lower/2]) cube( [foot,4,lower], center=true );
             translate([0,foot-2,1]) cube( [foot, 2*foot, 2], center=true );
-        }
-    }
-}
-
-module old_leg() {
-    length=0.70*outer/2;
-    width=1.1*rjoint;
-    difference() {
-        union() {
-            translate([0,0,1+1.6*rjoint+length]) sphere( r=rjoint, center=true, $fn=20 );
-            translate([0,0,1+length/2+0.80*rjoint]) rotate([0,0,45]) cylinder( h=length, r2=width, r1=0.75*width, center=true, $fn=4 );
-            translate([0,0,1+rjoint/2]) sphere( r=rjoint/2, center=true, $fn=20 );
-            translate([0,rjoint/2,1]) cube( [rjoint, 2*rjoint, 2], center=true );
         }
     }
 }
