@@ -1,6 +1,5 @@
 outer=45;
 aspect=1.1;
-stem_radius=1.5;
 rjoint=5;
 joint_gap=2*rjoint-3;
 joint_fudge=0.15;
@@ -8,7 +7,6 @@ filament_diam=3;
 filament_adj=0.2;
 r_hole=(filament_diam+filament_adj)/2;
 r_eye=12;
-stem_height=8;
 
 front_plate=1;
 back_plate=2;
@@ -118,7 +116,9 @@ module core(thick,sep) {
             translate([0,0, thick/2]) bolts( ring );
             translate([0,0,-thick/2]) bolts( ring );
         }
-        stem_hole( outer );
+
+        // hole for stem
+        translate([0,outer+5,0]) rotate(a=[90,0,0]) scale([1.1,1.1,1]) stem_shaft();
         // Attach arms here
         translate([ outer,0,0]) limb_hole( joint_gap, thick );
         translate([-outer,0,0]) mirror([1,0,0]) limb_hole( joint_gap, thick );
@@ -133,11 +133,12 @@ module limb_hole( joint_gap, thick ) {
     translate([-joint_gap/2,0,0]) sphere( r=rjoint, $fn=20 );
 }
 
-module stem_hole(offset) {
-    depth=0.75*stem_height;
+module stem_shaft() {
+    stem_height=8;
+    stem_radius=1.5;
     union() {
-        translate([0,offset,0]) rotate(a=[90,0,0]) cylinder( h=depth, r=stem_radius, center=true, $fn=10 );
-        translate([0,offset-depth+1,0]) rotate(a=[90,0,0]) cylinder( r1=stem_radius, r2=2*stem_radius, h=depth, center=true, $fn=10 );
+        translate([0,0,stem_height/2]) cylinder( r=stem_radius, h=stem_height, center=true, $fn=10 );
+        translate([0,0,1.25*stem_height]) cylinder( r1=stem_radius, r2=2*stem_radius, h=0.75*stem_height, center=true, $fn=10 );
     }
 }
 
@@ -163,8 +164,7 @@ module stem() {
     w_thick=3;
     union() {
         translate([0,0,w_thick/2]) cylinder( r=5, h=w_thick, center=true );
-        translate([0,0,stem_height/2]) cylinder( r=stem_radius, h=stem_height, center=true, $fn=10 );
-        translate([0,0,1.25*stem_height]) cylinder( r1=stem_radius, r2=2*stem_radius, h=0.75*stem_height, center=true, $fn=10 );
+        stem_shaft();
     }
 }
 
