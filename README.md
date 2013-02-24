@@ -53,3 +53,5 @@ pieces and clean up the parts, if necessary.
     stem or into the gaps where the arms and legs go.
 14. After everything is dry, snap the arms and legs into the appropriate holes.
 15. Enjoy.
+
+For a little nicer effect, paint the eye before assembling the clank.
