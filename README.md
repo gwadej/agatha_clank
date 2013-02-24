@@ -2,10 +2,10 @@ agatha_clank
 ============
 
 OpenScad file for creation of the STL files for a 3D model based on Agatha's little Clank
-from [Girl Genius](http://girlgeniusonline.com/).
+from the [Girl Genius](http://girlgeniusonline.com/) webcomic.
 
-The resulting model has poseable arms and legs. The model's eye can be positioned to look
-in various directions. Finally, the winding knob on the top will turn. With a little practice
+The resulting model has posable arms and legs. The model's eye can be positioned to look
+in various directions. Finally, the winding knob on the top will turn. With a little practice,
 you should be able to stand the little clank.
 
 The Model
